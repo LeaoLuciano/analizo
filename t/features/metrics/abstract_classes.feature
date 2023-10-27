@@ -22,6 +22,14 @@ Feature: number of abstract classes
       | cpp      | 2                      |
       | java     | 2                      |
       | csharp   | 1                      |
+  
+  Scenario: "Animals" project
+    Given I am in t/samples/animals/<language>
+    When I run "analizo metrics --extractor Pyan ."
+    Then analizo must report that the project has total_abstract_classes = <total_abstract_classes>
+    Examples:
+      | language | total_abstract_classes |
+      | python   | 2                      |
 
   Scenario: "Polygons" project
     Given I am in t/samples/polygons/<language>
@@ -42,3 +50,12 @@ Feature: number of abstract classes
       | language | total_mpac |
       | java     | 6          |
       | csharp   | 1          |
+
+  Scenario: "AbstractClass" project
+    Given I am in t/samples/abstract_class/<language>
+    When I run "analizo metrics --extractor Pyan ."
+    Then analizo must report that the project has total_abstract_classes = 1
+    And analizo must report that the project has total_methods_per_abstract_class = <total_mpac>
+    Examples:
+      | language | total_mpac |
+      | python   | 1          |
