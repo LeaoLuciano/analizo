@@ -126,7 +126,7 @@ sub execute {
 
   # extract model from source
   my $model_cache_key = "model://$tree_id";
-  my $model = $self->cache->get($model_cache_key);
+  my $model = undef; #$self->cache->get($model_cache_key);
   if (!defined $model) {
     $model = Analizo::Model->new;
     my %options = (
@@ -149,7 +149,7 @@ sub execute {
 
   # calculate metrics
   my $metrics_cache_key = "metrics://$tree_id";
-  my $metrics = $self->cache->get($metrics_cache_key);
+  my $metrics = undef;#$self->cache->get($metrics_cache_key);
   if (!defined $metrics) {
     $metrics = Analizo::Metrics->new(model => $self->model);
     $metrics->data();

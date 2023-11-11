@@ -1,3 +1,5 @@
+from human import Human
+
 class Dog():
 
     def __init__(self) -> None:

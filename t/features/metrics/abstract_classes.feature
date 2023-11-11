@@ -13,6 +13,14 @@ Feature: number of abstract classes
       | java     |
       | csharp   |
 
+  Scenario: "Hello, world" project
+    Given I am in t/samples/hello_world/<language>
+    When I run "analizo metrics --extractor Pyan ."
+    Then analizo must report that the project has total_abstract_classes = 0
+    Examples:
+      | language |
+      | python   |
+
   Scenario: "Animals" project
     Given I am in t/samples/animals/<language>
     When I run "analizo metrics ."
@@ -40,6 +48,14 @@ Feature: number of abstract classes
       | cpp      |
       | java     |
       | csharp   |
+
+  Scenario: "Polygons" project
+    Given I am in t/samples/polygons/<language>
+    When I run "analizo metrics --extractor Pyan ."
+    Then analizo must report that the project has total_abstract_classes = 2
+    Examples:
+      | language |
+      | python   |
 
   Scenario: "AbstractClass" project
     Given I am in t/samples/abstract_class/<language>

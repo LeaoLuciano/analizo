@@ -1,10 +1,13 @@
-class ShopController {
+from human import Human
+from vender_shop import VenderShop
 
-    public void main(){
-        Human owner = new Human();
-        owner.name = "Robson";
+class ShopController:
 
-        VenderShop vender = new VenderShop();
-        vender.sellDogTo(owner);
-    }
-}
+    def main():
+        owner: Human = Human()
+        owner.name = "Robson"
+
+        vender: VenderShop = VenderShop()
+        vender.sellDogTo(owner)
+    
+
