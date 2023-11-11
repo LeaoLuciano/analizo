@@ -39,32 +39,39 @@ sub feed {
     my $id = $values[0];
     my $name = $values[1];
     my $type = $values[2];
-    my $flavor = $values[3];
+    # my $flavor = $values[3];
     my @details = ();
 
     my $len  = int(scalar @values);
-    if($len > 4) {
-      @details = @values[4..$len-1];
+    if($len > 3) {
+      @details = @values[3..$len-1];
     }
 
     @id_to_node{$id} = {
       name => $name,
       type => $type,
-      flavor => $flavor,
+      # flavor => $flavor,
       details => \@details
     };
 
-    if ($flavor =~ /abstractclass/) {
-      $self->model->add_abstract_class($name)
+    if ($type =~ /abstract_class/) {
+      my $class = $name;
+      my $file = $details[0];
+      $file =~ s/.\///;
+
+
+      $self->model->declare_module($class, $file);
+      $self->model->add_abstract_class($class)
     } 
     
-    if ($type =~ /Module/) {
+    if ($type =~ /module/) {
       my $file = $details[0];
       $file =~ s/.\///;
       my $module = $name;
 
       $self->model->declare_module($module, $file);
-    }elsif ($type =~ /ClassDef/) {
+    }
+    if ($type =~ /class/) {
       my $class = $name;
       my $file = $details[0];
       $file =~ s/.\///;
@@ -87,19 +94,18 @@ sub feed {
 
     if ($relation =~ /U/) {
 
-      if ($node1->{type} =~ /Module/) {
+      if ($node1->{type} =~ /module/) {
         $i += 1;
         next;
       }
 
-      if ($node2->{type} =~ /FunctionDef/) {
+      if ($node2->{type} =~ /function/ || $node2->{type} =~ /method/) {
       my $class = $node1->{name};
       my $function = $node2->{name};
-
       
         $self->model->add_call($class, $function, 'direct');
       }
-      elsif ($node2->{type} =~ /Attribute/) {
+      elsif ($node2->{type} =~ /member_variable/) {
         my $function = $node1->{name};
         my $variable = $node2->{name};
         $self->model->add_variable_use($function, $variable);
@@ -112,7 +118,7 @@ sub feed {
     }
     elsif ($relation =~ /D/) {
 
-      if ($node2->{type} =~ /FunctionDef/) {
+      if ($node2->{type} =~ /function/ || $node2->{type} =~ /method/) {
         my $class = $node1->{name};
         my $function = $node2->{name};
         my $protection = $node2->{details}[0];
@@ -128,7 +134,7 @@ sub feed {
         $self->model->add_conditional_paths($function, $conditional_paths);
 
       }
-      elsif ($node2->{type} =~ (/Attribute/) || $node2->{type} =~ (/Name/)) {
+      elsif ($node2->{type} =~ (/member_variable/)) {
         my $function = $node1->{name};
         my $variable = $node2->{name};
         my $protection = $node2->{details}[0];
@@ -140,8 +146,8 @@ sub feed {
     }
     $i += 1;
   }
-  #$Data::Dumper::Sortkeys = 1;
-  #print Dumper $self->model;
+  # $Data::Dumper::Sortkeys = 1;
+  # print Dumper $self->model;
 }
 
 sub actually_process {

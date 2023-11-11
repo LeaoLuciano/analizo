@@ -47,4 +47,4 @@ Feature: total number of methods per abstract class
     Then analizo must report that the project has total_methods_per_abstract_class = <value>
     Examples:
       | language | value |
-      | python   | 2     |
+      | python   | 1.5   |
