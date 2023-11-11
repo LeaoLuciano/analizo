@@ -19,7 +19,8 @@ Feature: dependency graph among files
     Then analizo must report that "<referent>" depends on "<referenced>"
     Examples:
       | language | referent | referenced |
-      | python   | main     | animal     |
+      | python   | main     | cat     |
+      | python   | main     | dog     |
 
   Scenario: relation between inheritance
     Given I am in t/samples/animals/<language>

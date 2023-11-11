@@ -1,7 +1,6 @@
-class HelloWorld():
+class HelloWorld:
   __id_seq = 0;
-
-  hello = 1;
+  hello = 1 
 
   def __init__(self):
     self.__id = __id_seq + 1;

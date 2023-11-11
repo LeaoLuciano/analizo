@@ -8,6 +8,7 @@ use parent qw(Analizo::Extractor);
 use File::Temp qw/ tempfile /;
 use Cwd;
 use File::Spec::Functions qw/ tmpdir /;
+use Data::Dumper;
 
 sub new {
   my ($package, @options) = @_;
@@ -127,7 +128,7 @@ sub feed {
         $self->model->add_conditional_paths($function, $conditional_paths);
 
       }
-      elsif ($node2->{type} =~ /Attribute/) {
+      elsif ($node2->{type} =~ (/Attribute/) || $node2->{type} =~ (/Name/)) {
         my $function = $node1->{name};
         my $variable = $node2->{name};
         my $protection = $node2->{details}[0];
@@ -139,6 +140,8 @@ sub feed {
     }
     $i += 1;
   }
+  #$Data::Dumper::Sortkeys = 1;
+  #print Dumper $self->model;
 }
 
 sub actually_process {

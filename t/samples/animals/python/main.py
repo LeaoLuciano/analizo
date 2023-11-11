@@ -4,8 +4,8 @@ from animal import Animal
 from mammal import Mammal
 
 def main(): 
-    dog: Animal = dog.Dog("Odie");
-    cat: Mammal = cat.Cat("Garfield");
+    dog = dog.Dog("Odie");
+    cat = cat.Cat("Garfield");
     print(dog.name())
     print(cat.name())
 
